@@ -11,7 +11,7 @@ import (
 func TestRebaleConnect(t *testing.T) {
 	t.Run("Test Connect func", func(t *testing.T) {
 		var c Rebale
-		err := c.Connect("127.0.0.1:6937")
+		err := c.Connect("127.0.0.1:6379")
 		require.NoError(t, err)
 	})
 }
@@ -27,7 +27,7 @@ func TestRebalePing(t *testing.T) {
 func TestRebaleSet(t *testing.T) {
 	t.Run("Test Set func", func(t *testing.T) {
 		var c Rebale
-		err := c.Connect("127.0.0.1:6937")
+		err := c.Connect("127.0.0.1:6379")
 		require.NoError(t, err)
 		cRedis := redis.NewClient(&redis.Options{PoolSize: 1})
 
@@ -48,7 +48,7 @@ func TestRebaleSet(t *testing.T) {
 func TestRebaleGet(t *testing.T) {
 	t.Run("Test Set func", func(t *testing.T) {
 		var c Rebale
-		err := c.Connect("127.0.0.1:6937")
+		err := c.Connect("127.0.0.1:6379")
 		require.NoError(t, err)
 		cRedis := redis.NewClient(&redis.Options{PoolSize: 1})
 
