@@ -7,8 +7,8 @@ import "errors"
 type Rebale interface {
 	Connect(address string) error
 	Ping() error
-	Get(key string) (interface{}, error)
-	Set(key string, value interface{}, length int) error
+	Get(key string) (io.Reader, error)
+	Set(key string, value io.Reader, length int) error
 	Close() error
 }
 
@@ -24,11 +24,11 @@ func (r *MyRebaleImpl) Ping() error {
 	return errors.New("implement me")
 }
 
-func (r *MyRebaleImpl) Get(key string) (interface{}, error) {
+func (r *MyRebaleImpl) Get(key string) (io.Reader, error) {
 	return nil, errors.New("implement me")
 }
 
-func (r *MyRebaleImpl) Set(key string, value interface{}, length int) error {
+func (r *MyRebaleImpl) Set(key string, value io.Reader, length int) error {
 	return errors.New("implement me")
 }
 
