@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/go-redis/redis"
@@ -10,7 +11,7 @@ import (
 
 func TestRebaleConnect(t *testing.T) {
 	t.Run("Test Connect func", func(t *testing.T) {
-		var c Rebale
+		c := &MyRebaleImpl{}
 		err := c.Connect("127.0.0.1:6379")
 		require.NoError(t, err)
 	})
@@ -18,7 +19,7 @@ func TestRebaleConnect(t *testing.T) {
 
 func TestRebalePing(t *testing.T) {
 	t.Run("Test Ping func", func(t *testing.T) {
-		var c Rebale
+		c := &MyRebaleImpl{}
 		err := c.Ping()
 		require.NoError(t, err)
 	})
@@ -26,7 +27,7 @@ func TestRebalePing(t *testing.T) {
 
 func TestRebaleSet(t *testing.T) {
 	t.Run("Test Set func", func(t *testing.T) {
-		var c Rebale
+		c := &MyRebaleImpl{}
 		err := c.Connect("127.0.0.1:6379")
 		require.NoError(t, err)
 		cRedis := redis.NewClient(&redis.Options{PoolSize: 1})
@@ -36,7 +37,7 @@ func TestRebaleSet(t *testing.T) {
 			"empty": "",
 		}
 		for k, v := range cases {
-			err = c.Set(k, v, len(v))
+			err = c.Set(k, strings.NewReader(v), len(v))
 			require.NoError(t, err)
 			rValue, err := cRedis.Get(k).Result()
 			require.NoError(t, err)
@@ -47,7 +48,7 @@ func TestRebaleSet(t *testing.T) {
 
 func TestRebaleGet(t *testing.T) {
 	t.Run("Test Set func", func(t *testing.T) {
-		var c Rebale
+		c := &MyRebaleImpl{}
 		err := c.Connect("127.0.0.1:6379")
 		require.NoError(t, err)
 		cRedis := redis.NewClient(&redis.Options{PoolSize: 1})
@@ -57,9 +58,10 @@ func TestRebaleGet(t *testing.T) {
 			"empty": "",
 		}
 		for k, v := range cases {
-			err = c.Set(k, v, len(v))
+			err = c.Set(k, strings.NewReader(v), len(v))
 			require.NoError(t, err)
 			cValue, err := c.Get(k)
+			assert.Nil(t, err)
 			assert.EqualValues(t, cValue, v)
 			rValue, err := cRedis.Get(k).Result()
 			require.NoError(t, err)

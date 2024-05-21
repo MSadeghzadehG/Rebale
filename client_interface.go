@@ -1,6 +1,9 @@
 package main
 
-import "errors"
+import (
+	"errors"
+	"io"
+)
 
 // in the name of God.
 
