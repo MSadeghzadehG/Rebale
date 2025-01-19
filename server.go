@@ -11,11 +11,11 @@ type Server interface {
 	set(w http.ResponseWriter, req *http.Request)
 }
 
-type myServer struct {
+type RebaleServer struct {
 	c Rebale
 }
 
-func (s *myServer) get(w http.ResponseWriter, req *http.Request) {
+func (s *RebaleServer) get(w http.ResponseWriter, req *http.Request) {
 	key := req.URL.Query().Get("key")
 	r, err := s.c.Get(key)
 	if err != nil {
@@ -27,7 +27,7 @@ func (s *myServer) get(w http.ResponseWriter, req *http.Request) {
 	io.Copy(w, r)
 }
 
-func (s *myServer) set(w http.ResponseWriter, req *http.Request) {
+func (s *RebaleServer) set(w http.ResponseWriter, req *http.Request) {
 	key := req.URL.Query().Get("key")
 	err := s.c.Set(key, req.Body, int(req.ContentLength))
 	if err != nil {
